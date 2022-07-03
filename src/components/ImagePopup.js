@@ -1,6 +1,6 @@
-function ImagePopup({ onClose, card }) {
+function ImagePopup({ card, onClose }) {
   return (
-    <div className={`popup popup_type_pic ${card && 'popup_opened'}`}>
+    <div className={`popup popup_type_pic  ${card && 'popup_opened'}`}>
       <div className="popup__wrap">
         <img alt={card && card.name} src={card && card.link} className="popup__image" />
         <h2 className="popup__caption">{card && card.name}</h2>

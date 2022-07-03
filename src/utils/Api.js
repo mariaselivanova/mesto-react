@@ -28,20 +28,20 @@ class Api {
   }
 
   //Изменить данные пользователя.
-  changeUserInfo(data) {
+  changeUserInfo(name, about) {
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify({ name, about })
     }).then((res) => this._handleRes(res))
   }
 
   //Добавить новую карточку.
-  addNewCard(data) {
+  addNewCard(name, link) {
     return fetch(`${this._url}cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify({ name, link })
     }).then((res) => this._handleRes(res))
   }
 
@@ -50,7 +50,7 @@ class Api {
     return fetch(`${this._url}users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(avatar)
+      body: JSON.stringify({ avatar })
     }).then((res) => this._handleRes(res))
   }
 
@@ -69,7 +69,6 @@ class Api {
       headers: this._headers
     }).then((res) => this._handleRes(res))
   }
-
   //Удалить карточку.
   deleteCard(id) {
     return fetch(`${this._url}cards/${id}`, {
