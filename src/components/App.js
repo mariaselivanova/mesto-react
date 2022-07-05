@@ -15,26 +15,17 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    if (!isLiked) {
-      api.addLike(card._id)
-        .then((newCard) => {
-          setCards((state) => state.map((c) => (c._id === card._id ? newCard : c))
-          );
-        })
-        .catch((err) => console.log(err));
-    } else {
-      api.deleteLike(card._id)
-        .then((newCard) => {
-          setCards((state) => state.map((c) => (c._id === card._id ? newCard : c))
-          );
-        })
-        .catch((err) => console.log(err));
-    }
+
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((err) => console.log(err));
   };
 
   function handleCardDelete(card) {
@@ -55,21 +46,13 @@ function App() {
   };
 
   useEffect(() => {
-    api.getAllCards()
-      .then((res) => {
-        setCards(res)
+    Promise.all([api.getAllCards(), api.handleUserInfo()])
+      .then(([cards, userInfo]) => {
+        setCards(cards);
+        setCurrentUser(userInfo);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }, []);
-
-  useEffect(() => {
-    api.handleUserInfo()
-      .then((res) => {
-        setCurrentUser(res)
-      })
-      .catch((err) => console.log(err))
-  }, []);
-
 
   function openEditProfilePopup() {
     setIsEditProfilePopupOpen(true);

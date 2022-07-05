@@ -54,21 +54,14 @@ class Api {
     }).then((res) => this._handleRes(res))
   }
 
-  //Добавить лайк.
-  addLike(id) {
+  //Добавить или удалить лайк.
+  changeLikeCardStatus(id, isLiked) {
     return fetch(`${this._url}cards/${id}/likes`, {
-      method: 'PUT',
+      method: !isLiked ? 'DELETE' : 'PUT',
       headers: this._headers
     }).then((res) => this._handleRes(res))
   }
 
-  //Удалить лайк.
-  deleteLike(id) {
-    return fetch(`${this._url}cards/${id}/likes`, {
-      method: 'DELETE',
-      headers: this._headers
-    }).then((res) => this._handleRes(res))
-  }
   //Удалить карточку.
   deleteCard(id) {
     return fetch(`${this._url}cards/${id}`, {
