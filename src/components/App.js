@@ -111,7 +111,6 @@ function App() {
         />
         <Footer />
 
-
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
